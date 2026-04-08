@@ -1,36 +1,97 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Recipe — cmlabs Frontend Part-time Test
 
-## Getting Started
+Pre-assessment Test / FE-PT-02-2
 
-First, run the development server:
+Aplikasi web recipe explorer yang dibangun menggunakan Next.js di atas [TheMealDB API](https://www.themealdb.com/).
+
+## Tech Stack
+
+- **Framework**: Next.js 16 (App Router)
+- **Language**: TypeScript
+- **Styling**: Tailwind CSS v4 + clsx + tailwind-merge
+- **Fonts**: Fraunces (display) + DM Sans (body) via `next/font/google`
+
+## Fitur
+
+- **Halaman Ingredients** — Menampilkan seluruh daftar ingredients, dilengkapi fitur search by name di sisi front-end
+- **Halaman Ingredient Detail** — Menampilkan daftar meal berdasarkan ingredient yang dipilih, dilengkapi fitur search meal by name di sisi front-end
+- **Halaman Meal Detail** — Menampilkan detail meal lengkap: gambar, judul, instruksi, daftar recipe, dan YouTube embed
+- Fully responsive (mobile, tablet, desktop)
+- Atomic component architecture (atoms → molecules → organisms)
+- Server-side data fetching dengan revalidation
+
+## Cara Menjalankan Project
+
+### 1. Clone repository
+
+```bash
+git clone https://github.com/<your-username>/cmlabs-frontend-parttime-test.git
+cd cmlabs-frontend-parttime-test
+```
+
+### 2. Install dependencies
+
+```bash
+npm install
+```
+
+### 3. Jalankan development server
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Buka [http://localhost:3000](http://localhost:3000) di browser.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### 4. Build untuk production
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+npm run build
+npm run start
+```
 
-## Learn More
+## Struktur Project
 
-To learn more about Next.js, take a look at the following resources:
+```
+src/
+├── app/
+│   ├── page.tsx                        # Landing / home page
+│   ├── layout.tsx                      # Root layout (Navbar + Footer)
+│   ├── not-found.tsx                   # Halaman 404
+│   ├── ingredients/
+│   │   ├── page.tsx                    # Halaman Ingredients (list + search)
+│   │   └── [slug]/
+│   │       └── page.tsx                # Halaman Ingredient Detail (filter by ingredient)
+│   └── meals/
+│       └── [id]/
+│           └── page.tsx                # Halaman Meal Detail
+├── components/
+│   ├── atoms/
+│   │   ├── Badge.tsx
+│   │   ├── SearchInput.tsx
+│   │   └── Spinner.tsx
+│   ├── molecules/
+│   │   ├── Breadcrumb.tsx
+│   │   ├── IngredientCard.tsx
+│   │   └── MealCard.tsx
+│   └── organisms/
+│       ├── IngredientGrid.tsx          # Client component (search + grid ingredients)
+│       ├── MealGrid.tsx                # Client component (search + grid meals)
+│       └── Navbar.tsx
+└── lib/
+    ├── api.ts                          # Fungsi API ke TheMealDB
+    ├── types.ts                        # TypeScript interfaces
+    └── utils.ts                        # cn() utility (clsx + tailwind-merge)
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## API Endpoints
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+| Nama | URL | Status |
+|------|-----|--------|
+| List of Ingredients | `https://www.themealdb.com/api/json/v1/1/list.php?i=list` | Wajib |
+| Filter by Ingredient | `https://www.themealdb.com/api/json/v1/1/filter.php?i={ingredient-name}` | Wajib |
+| Detail Meal | `https://www.themealdb.com/api/json/v1/1/lookup.php?i={meal-id}` | Opsional (dikerjakan) |
 
-## Deploy on Vercel
+## Live Demo
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
